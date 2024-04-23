@@ -19,7 +19,7 @@ This script require that you already added a SSH public key to your Docker host 
 
 # Usage
 
-You can pass one argument to the graceful script that controls the host itself after the Dockers and ProxMox VM's has shut down:
+You can pass one argument to the graceful script that commands the host itself after the Dockers and ProxMox VM's has shut down:
 
 Shutdown host after Dockers and ProxMox VM's has been shutdown
 ```bash
