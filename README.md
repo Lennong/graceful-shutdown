@@ -21,11 +21,11 @@ This script require that you already added a SSH public key to your Docker host 
 
 You can pass one argument to the graceful script that commands the host itself after the Dockers and ProxMox VM's has shut down:
 
-Shutdown host after Dockers and ProxMox VM's has been shutdown
-```bash
-graceful stop
-```
 Reboot host after Dockers and ProxMox VM's has been shutdown
 ```bash
 graceful reboot
+```
+Shutdown host after Dockers and ProxMox VM's has been shutdown
+```bash
+graceful stop
 ```
