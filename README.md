@@ -29,3 +29,6 @@ Shutdown host after Dockers and ProxMox VM's has been shutdown
 ```bash
 graceful stop
 ```
+
+# ToDo
+Configurable shutdown order of Docker containers and ProxMox VM's
