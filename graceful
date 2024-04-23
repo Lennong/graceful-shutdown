@@ -1,0 +1,84 @@
+#!/bin/bash
+
+# Docker host
+hostDOCKER="10.1.10.245"
+
+export DOCKER_HOST=ssh://root@$hostDOCKER
+export LANG=en_US.UTF-8
+
+# Argument to [reboot|stop] host state
+state=$1
+
+###########################
+
+function check-if-root {
+	if [[ ${EUID} -ne 0 ]] ; then
+		echo "Aborting because you are not root" ; exit 1
+	fi
+}
+
+function shutdown-docker-container {
+	dockerSTATUS=$(/usr/bin/docker ps -a --format '{{.Names}}\t{{.Status}}' | sed -e 's/Up.*$/is running/g' -e 's/Exited.*$/is stopped/g' | column -t)
+	dockerRUNNING=$(echo "$dockerSTATUS" | grep 'running')
+	dockerLINES=$(echo "$dockerSTATUS" | wc -l)
+
+	# call and wait for all docker containers to shutdown
+	if [[ -n "$dockerRUNNING" ]]; then
+		echo""
+		echo "Shutting down Docker containers.."
+		/usr/bin/docker stop $(docker ps -q) > /dev/null &
+		for (( i=1; i <= $(($dockerLINES)); i++ )); do echo ""; done
+		while grep 'running' <<< "$dockerSTATUS" > /dev/null; do
+		sleep 1
+		for (( i=1; i <= $(($dockerLINES)); i++ )); do tput cuu1; tput el; done
+		dockerSTATUS=$(/usr/bin/docker ps -a --format '{{.Names}}\t{{.Status}}' | sed -e 's/Up.*$/is running/g' -e 's/Exited.*$/is stopped/g' | column -t)
+		echo "$dockerSTATUS"
+		done
+		for (( i=1; i <= $(($dockerLINES)); i++ )); do tput cuu1; tput el; done
+		echo "All Docker containers are stopped!"
+		echo "$dockerSTATUS"
+	else
+		echo "All Docker containers are stopped!"
+		echo "$dockerSTATUS"
+	fi
+}
+
+function shutdown-proxmox-vm {
+	pveSTATUS=$(pvesh get /cluster/resources --type vm --noborder --noheader | awk '{printf "%s\n",""$13" ""is"" "$15}' | column -t)
+	pveRUNNING=$(echo "$pveSTATUS" | grep 'running')
+	pveLINES=$(echo "$pveSTATUS" | wc -l)
+
+	# call and wait for all proxmox VM's to shutdown
+	if [[ -n "$pveRUNNING" ]]; then
+		echo""
+		echo "Shutting down ProxMox VM's.."
+		pvesh --nooutput create /nodes/localhost/stopall > /dev/null &
+		for (( i=1; i <= $(($pveLINES)); i++ )); do echo ""; done
+		while grep 'running' <<< "$pveSTATUS" > /dev/null; do
+		sleep 1
+		for (( i=1; i <= $(($pveLINES)); i++ )); do tput cuu1; tput el; done
+		pveSTATUS=$(pvesh get /cluster/resources --type vm --noborder --noheader | awk '{printf "%s\n",""$13" ""is"" "$15}' | column -t)
+		echo "$pveSTATUS"
+		done
+		for (( i=1; i <= $(($pveLINES)); i++ )); do tput cuu1; tput el; done
+		echo "All ProxMox VM's are stopped!"
+		echo "$pveSTATUS"
+	else
+		echo "All ProxMox VM's are stopped!"
+		echo "$pveSTATUS"
+	fi
+}
+
+function shutdown-host {
+	if [[ "$state" == "stop" ]]; then
+	state="systemctl poweroff"
+	fi
+	$state | /bin/sh
+}
+
+##########
+
+check-if-root
+shutdown-docker-container
+shutdown-proxmox-vm
+shutdown-host
