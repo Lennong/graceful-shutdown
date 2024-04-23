@@ -14,4 +14,18 @@ curl https://download.docker.com/linux/static/stable/x86_64/docker-26.0.2.tgz | 
 
 # Run commands on remote Docker host with docker-cli 
 
-This is how to connect to another host with your docker client, without modifying your local Docker installation or when you don't have a local Docker installation.
+This is used to connect to another Docker host with docker-cli, without modifying your local Docker installation or when you don't have a local Docker installation.
+This script require that you already added an SSH public key to your Docker host for passwordless root access.
+
+# Usage
+
+You can pass one argument to the graceful script that controls the host itself after the Dockers and ProxMox VM's has shut down:
+
+Shutdown host after Dockers and ProxMox VM's
+```bash
+graceful stop
+```
+Reboot host after Dockers and ProxMox VM's
+```bash
+graceful reboot
+```
