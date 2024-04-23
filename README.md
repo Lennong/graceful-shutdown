@@ -8,7 +8,7 @@ To rectify that this script has been written.
 The script uses the built in standard tools for a Debian 12 installation. To be able to communicate with a container hosted docker environment you also need to install the docker-cli tool.
 It can 
 You only need the `docker` file, which can be run directly from its location. The script call docker-cli from /usr/bin/docker. Use the commands below to download, unpack and drop it in place: 
-curl https://download.docker.com/linux/static/stable/x86_64/docker-26.0.2.tgz | tar xvz --directory /tmp && mv -v /tmp/docker/docker /usr/bin/docker && chmod +x /usr/bin/docker && rm -rf /tmp/docker
+'curl https://download.docker.com/linux/static/stable/x86_64/docker-26.0.2.tgz | tar xvz --directory /tmp && mv -v /tmp/docker/docker /usr/bin/docker && chmod +x /usr/bin/docker && rm -rf /tmp/docker'
 
 # Run commands on remote Docker host with docker-cli 
 
