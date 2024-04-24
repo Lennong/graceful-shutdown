@@ -39,5 +39,5 @@ graceful stop
 ```
 
 ## ToDo
-Configurable shutdown order of Docker containers and ProxMox VM's
-In place update of dockers and VM's status instead of the (blinking) refresh approach that is used now
+### Configurable shutdown order of Docker containers and ProxMox VM's
+### In place update of dockers and VM's status instead of the (blinking) refresh approach that is used now
