@@ -14,7 +14,7 @@ curl https://download.docker.com/linux/static/stable/x86_64/docker-26.0.2.tgz | 
 # Run commands on remote Docker host with docker-cli 
 
 This is used to connect to another Docker host with docker-cli, without modifying your local Docker installation or when you don't have a local Docker installation.
-This script require that you already added a SSH public key to your Docker host for passwordless root access.
+This script requires that you already added and confirmed a SSH public key to your Docker host for passwordless root access.
 From your Docker-less host run:
 ```bash
 apt install ssh
