@@ -20,7 +20,9 @@ From your Docker-less host run:
 apt install ssh
 ssh-keygen (Press enter twice to leave the passphrase empty)
 ssh-copy-id -i ~/.ssh/id_rsa.pub root@x.x.x.x
-enter password to Docker host and confirm the saaving of the key
+
+Enter password to Docker host and confirm the saving of the key
+
 Test the connection from the Docker-less host cli:
 ssh root@x.x.x.x
 ```
