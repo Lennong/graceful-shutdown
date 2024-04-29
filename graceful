@@ -69,7 +69,7 @@ function shutdown-proxmox-vm {
 	fi
 }
 
-function shutdown-host {
+function state-host {
 	if [[ "$state" == "stop" ]]; then
 	state="systemctl poweroff"
 	fi
@@ -81,4 +81,4 @@ function shutdown-host {
 check-if-root
 shutdown-docker-container
 shutdown-proxmox-vm
-shutdown-host
+state-host
