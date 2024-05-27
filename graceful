@@ -32,14 +32,14 @@ function shutdown-docker-container {
 		sleep 1
 		for (( i=1; i <= $(($dockerLINES)); i++ )); do tput cuu1; tput el; done
 		dockerSTATUS=$(/usr/bin/docker ps -a --format '{{.Names}}\t{{.Status}}' | sed -e 's/Up.*$/is running/g' -e 's/Exited.*$/is stopped/g' | column -t)
-		echo "$dockerSTATUS" | GREP_COLORS='mt=01;32' grep --color=auto -e "^" -e "running" | grep --color=always -e "^" -e "stopped"
+		echo "$dockerSTATUS" | grep --color=always -e "^" -e "stopped" | GREP_COLORS='mt=01;32' grep --color=auto -e "^" -e "running"
 		done
 		for (( i=1; i <= $(($dockerLINES)); i++ )); do tput cuu1; tput el; done
 		echo "All Docker containers are stopped!"
-		echo "$dockerSTATUS" | GREP_COLORS='mt=01;32' grep --color=auto -e "^" -e "running" | grep --color=always -e "^" -e "stopped"
+		echo "$dockerSTATUS" | grep --color=always -e "^" -e "stopped" | GREP_COLORS='mt=01;32' grep --color=auto -e "^" -e "running"
 	else
 		echo "All Docker containers are stopped!"
-		echo "$dockerSTATUS" | GREP_COLORS='mt=01;32' grep --color=auto -e "^" -e "running" | grep --color=always -e "^" -e "stopped"
+		echo "$dockerSTATUS" | grep --color=always -e "^" -e "stopped" | GREP_COLORS='mt=01;32' grep --color=auto -e "^" -e "running"
 	fi
 }
 
@@ -58,14 +58,14 @@ function shutdown-proxmox-vm {
 		sleep 1
 		for (( i=1; i <= $(($pveLINES)); i++ )); do tput cuu1; tput el; done
 		pveSTATUS=$(pvesh get /cluster/resources --type vm --noborder --noheader | awk '{printf "%s\n",""$13" ""is"" "$15}' | column -t)
-		echo "$pveSTATUS" | GREP_COLORS='mt=01;32' grep --color=auto -e "^" -e "running" | grep --color=always -e "^" -e "stopped"
+		echo "$pveSTATUS" | grep --color=always -e "^" -e "stopped" | GREP_COLORS='mt=01;32' grep --color=auto -e "^" -e "running"
 		done
 		for (( i=1; i <= $(($pveLINES)); i++ )); do tput cuu1; tput el; done
 		echo "All ProxMox VM's are stopped!"
-		echo "$pveSTATUS" | GREP_COLORS='mt=01;32' grep --color=auto -e "^" -e "running" | grep --color=always -e "^" -e "stopped"
+		echo "$pveSTATUS" | grep --color=always -e "^" -e "stopped" | GREP_COLORS='mt=01;32' grep --color=auto -e "^" -e "running"
 	else
 		echo "All ProxMox VM's are stopped!"
-		echo "$pveSTATUS" | GREP_COLORS='mt=01;32' grep --color=auto -e "^" -e "running" | grep --color=always -e "^" -e "stopped"
+		echo "$pveSTATUS" | grep --color=always -e "^" -e "stopped" | GREP_COLORS='mt=01;32' grep --color=auto -e "^" -e "running"
 	fi
 }
 
