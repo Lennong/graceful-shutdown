@@ -44,7 +44,7 @@ function shutdown-docker-container {
 }
 
 function shutdown-proxmox-vm {
-	pveSTATUS=$(pvesh get /cluster/resources --type vm --noborder --noheader | awk '{printf "%s\n",""$13" ""is"" "$15}' | column -t)
+	pveSTATUS=$(pvesh get /cluster/resources --type vm --noborder --noheader | awk '{printf "%s\n",""$17" ""is"" "$23}' | column -t)
 	pveRUNNING=$(echo "$pveSTATUS" | grep 'running')
 	pveLINES=$(echo "$pveSTATUS" | wc -l)
 
@@ -57,7 +57,7 @@ function shutdown-proxmox-vm {
 		while grep 'running' <<< "$pveSTATUS" > /dev/null; do
 		sleep 1
 		for (( i=1; i <= $(($pveLINES)); i++ )); do tput cuu1; tput el; done
-		pveSTATUS=$(pvesh get /cluster/resources --type vm --noborder --noheader | awk '{printf "%s\n",""$13" ""is"" "$15}' | column -t)
+		pveSTATUS=$(pvesh get /cluster/resources --type vm --noborder --noheader | awk '{printf "%s\n",""$17" ""is"" "$23}' | column -t)
 		echo "$pveSTATUS" | grep --color=always -e "^" -e "stopped" | GREP_COLORS='mt=01;32' grep --color=auto -e "^" -e "running"
 		done
 		for (( i=1; i <= $(($pveLINES)); i++ )); do tput cuu1; tput el; done
